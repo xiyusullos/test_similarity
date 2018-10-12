@@ -32,7 +32,7 @@ def tokenize_stopwords_stemmer(texts):
     #tokenize
     Str_texts=texts[0]
     #tokenizer = StanfordTokenizer(path_to_jar=r"/Users/apple/Documents/tools/stanford-parser-full-2015-04-20/stanford-parser.jar")
-    tokenizer = StanfordTokenizer(path_to_jar=r"D:/py/stanford-parser.jar") #path_to_jar: 用来定位jar包，r是防止字符转义的，如果路径中出现'\t'的话 不加r的话\t就会被转义 而加了'r'之后'\t'就能保留原有的样子
+    tokenizer = StanfordTokenizer(path_to_jar=r"stanford-parser.jar") #path_to_jar: 用来定位jar包，r是防止字符转义的，如果路径中出现'\t'的话 不加r的话\t就会被转义 而加了'r'之后'\t'就能保留原有的样子
     java_path = 'C:/Program Files/Java/jdk1.8.0_121/bin/java.exe'
     os.environ['JAVAHOME'] = java_path
     texts_tokenized=tokenizer.tokenize(Str_texts)#输入必须是字符串,进行分词
