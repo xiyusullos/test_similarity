@@ -309,15 +309,17 @@ def main():
     keys = []
     results = []
     index = 500  # 如果要比较1-10行 index=9
-    workbook = xlrd.open_workbook(r'C:\Users\Lenovo\Desktop\bug.xlsx')  # 打开文件
+    workbook = xlrd.open_workbook('data/bug.xlsx')  # 打开文件
     sheet1 = workbook.sheet_by_index(0)
     for i in range(1, index - 1):
+        print i, index - 1
         all_reports_tokens = []
         texts0 = []
         texts0.append(sheet1.cell(i, 4).value.encode('utf-8'))
         all_reports_tokens.append(tokenize_stopwords_stemmer(texts0))
         # print(all_reports_tokens)
         for j in range(i + 1, index+1):
+            print j, index + 1
             all_reports_tokens2 = []
             texts1 = []
             texts1.append(sheet1.cell(j, 4).value.encode('utf-8'))
