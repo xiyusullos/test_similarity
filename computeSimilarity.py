@@ -311,28 +311,36 @@ def main():
     index = 500  # 如果要比较1-10行 index=9
     workbook = xlrd.open_workbook('data/bug.xlsx')  # 打开文件
     sheet1 = workbook.sheet_by_index(0)
-    for i in range(1, index - 1):
-        print i, index - 1
+    for i in range(1, index ):
+        print i, index
         all_reports_tokens = []
         texts0 = []
-        texts0.append(sheet1.cell(i, 4).value.encode('utf-8'))
+        lianglie0=sheet1.cell(i, 3).value.encode('utf-8')+sheet1.cell(i, 4).value.encode('utf-8')
+        texts0.append(lianglie0)
         all_reports_tokens.append(tokenize_stopwords_stemmer(texts0))
         # print(all_reports_tokens)
         for j in range(i + 1, index+1):
             print j, index + 1
             all_reports_tokens2 = []
             texts1 = []
-            texts1.append(sheet1.cell(j, 4).value.encode('utf-8'))
+            lianglie1 = sheet1.cell(j, 3).value.encode('utf-8') + sheet1.cell(j, 4).value.encode('utf-8')
+            texts1.append(lianglie1)
             # print(texts1)
             all_reports_tokens2.append(tokenize_stopwords_stemmer(texts1))
             # print(all_reports_tokens2)
 
             # 计算相似度的函数
             #print("第" + str(i) + "行和第" + str(j) + "行")
-            keys.append(('L'+str(i)+','+'L'+str(j)))
+
+            sim = Similarity(all_reports_tokens, all_reports_tokens2)
+            item = str(sim)
+            if float(item[1:-1]) > 0.0:
+
+                keys.append(('L'+str(i)+','+'L'+str(j)))
             #print keys
-            results.append(Similarity(all_reports_tokens, all_reports_tokens2))
+                results.append(Similarity(all_reports_tokens, all_reports_tokens2))
             #print(results)
+
     data = []
     for key, result in zip(keys, results):
         # row = {
@@ -361,6 +369,12 @@ def main():
     for (i, row) in enumerate(data):
         for (j, item) in enumerate(row):
             ws.write(i, j, item)
+
+            # print item
+            # if item.startswith('[0') and float(item[1:-1]) > 0.0:
+            #     ws.write(i, j, item)
+            # if item > 0.001:
+            #    ws.write(i, j, item)
 
     wb.save('example.xls')
 
